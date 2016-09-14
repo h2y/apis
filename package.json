@@ -1,0 +1,15 @@
+{
+  "name": "api.hzy.pw",
+  "version": "1.0.0",
+  "description": "api.hzy.pw",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "author": "Moshel",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "restify": "^4.1.1"
+  }
+}
