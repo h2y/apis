@@ -10,11 +10,17 @@ var ret = {},
     ret_time = 0;
 
 //爬虫工作
-var refreshing = false;
+var refreshing = false,
+    refresh_start = new Date();
 function refresh() {
+    if(refreshing && C.getMS()-refresh_start > C.task_timeout)
+        refreshing = false;
+
     if (refreshing || C.getMS() - ret_time < C.refresh_timeout)
         return;
+
     refreshing = true;
+    refresh_start = new Date();
 
     var get_date,
         get_url = '',
