@@ -1,9 +1,12 @@
 const restify = require('restify'),
+      fs = require('fs'),
       port = 8790;
 
 var server = restify.createServer({
     'name': 'api.hzy.pw',
-    'version': '1.0.0'
+    'version': '1.0.0',
+    'certificate': fs.readFileSync('ssl/hzypw.pem'),
+    'key': fs.readFileSync('ssl/hzypw.key')
 });
 
 server.use(restify.acceptParser(server.acceptable));

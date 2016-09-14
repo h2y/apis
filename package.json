@@ -8,6 +8,10 @@
   },
   "author": "Moshel",
   "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h2y/apis.git"
+  },
   "dependencies": {
     "cheerio": "^0.22.0",
     "restify": "^4.1.1"
