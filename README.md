@@ -16,21 +16,21 @@
 
 ### 请求
 
-> GET: <http://api.hzy.pw/saying/v1/one>
+> GET: <https://api.hzy.pw/saying/v1/one>
 
 返回来自 _ONE·一个_ 的名言
 
-> GET: <http://api.hzy.pw/saying/v1/ciba>
+> GET: <https://api.hzy.pw/saying/v1/ciba>
 
 返回来自 _金山词霸每日一句_ 的名言
 
-> GET: <http://api.hzy.pw/saying/v1/youdao>
+> GET: <https://api.hzy.pw/saying/v1/youdao>
 
 返回来自 _有道每日一句_ 的名言
 
 ### 示例
 
-> GET: <http://api.hzy.pw/saying/v1/ciba>
+> GET: <https://api.hzy.pw/saying/v1/ciba>
 
 ```json
 {
