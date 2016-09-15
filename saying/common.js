@@ -1,6 +1,8 @@
 var C = {
+    //每条名言抓取之后的缓存时间
     'refresh_timeout': 1000,
 
+    //每个采集任务的执行时间
     'task_timeout': 15*1000,
 
     /*'v1GET_any_last': 0,

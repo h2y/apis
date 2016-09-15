@@ -15,6 +15,7 @@ server.use(restify.queryParser());
 server.use(restify.bodyParser());
 server.use((req, res, next)=>{
     res.header('Access-Control-Allow-Origin', '*');
+    res.charSet('utf-8');
     let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
     console.log(`[${new Date().toLocaleString()}]\t${ip}\t${req.url}`);
     next();
