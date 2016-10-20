@@ -24,9 +24,7 @@ server.use((req, res, next)=>{
 
 //saying
 server.get('/saying/v1/ciba', require('./saying/ciba').v1GET);
-server.get('/saying/v1/youdao', require('./saying/youdao').v1GET);
 server.get('/saying/v1/one', require('./saying/one').v1GET);
-//server.get('/saying/v1/any', require('./saying/common').v1GET_any);
 
 
 //listen

@@ -5,25 +5,6 @@ var C = {
     //每个采集任务的执行时间
     'task_timeout': 15*1000,
 
-    /*'v1GET_any_last': 0,
-    'v1GET_any_lastTime': 0,
-    'v1GET_any': (req, res, next)=>{
-        var all = [
-            require('./ciba'),
-            require('./youdao'),
-            require('./one')
-        ];
-        if(!all.length) return next();
-        var now = C.getMS();
-        if(now - C.v1GET_any_lastTime < C.refresh_timeout)
-            all[C.v1GET_any_last].v1GET(req, res, next);
-        else {
-            C.v1GET_any_lastTime = now;
-            C.v1GET_any_last = C.rnd_int(0, all.length-1);
-            all[C.v1GET_any_last].v1GET(req, res, next);
-        }
-    },*/
-
     // 返回当前时间 单位：毫秒
     'getMS': ()=>(new Date().getTime()),
 
