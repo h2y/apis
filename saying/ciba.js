@@ -65,15 +65,12 @@ function refresh() {
 
             res.on('end', function(){
                 try {
-                    get = JSON.parse(get);
+                    get = JSON.parse(get.replace(/^null/, ''));
                 }
                 catch(e) {
                     starter('GET到的JSON解析失败');
                     return;
                 }
-
-                if(!get.note)
-                    return starter('GET到的JSON无内容');
 
                 callback(get);
             });
