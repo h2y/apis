@@ -59,7 +59,7 @@ function refresh() {
                 return;
             });
 
-            var get = '';
+            var get = null;
 
             res.on('data', e=> get += e );
 
@@ -71,6 +71,10 @@ function refresh() {
                     starter('GET到的JSON解析失败');
                     return;
                 }
+
+                if(!get.note)
+                    return starter('GET到的JSON无内容');
+
                 callback(get);
             });
         }).on('error', (e) => starter('发送GET请求时错误='+e) );
