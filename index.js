@@ -26,6 +26,9 @@ server.use((req, res, next)=>{
 server.get('/saying/v1/ciba', require('./saying/ciba').v1GET);
 server.get('/saying/v1/one', require('./saying/one').v1GET);
 
+//avatar
+server.get('/avatar/v1/:size/:id', require('./avatar/jdenticon').v1GET);
+
 
 //listen
 server.listen(port);

@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "cheerio": "^0.22.0",
+    "jdenticon": "^1.4.0",
     "restify": "^4.1.1"
   }
 }

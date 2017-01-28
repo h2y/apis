@@ -4,6 +4,36 @@
 
 该项目已运行于我的服务器 <https://api.hzy.pw/> 中，大家可以直接调用，无任何限制。同时也可以下载源码，将这组 API 运行在自己的服务器中。
 
+## /avatar
+
+**[] 随机 SVG 矢量图形 []**
+
+生成矢量风格的图片，传入两个参数：尺寸和 Hash 值，输出一个 SVG 图片，并且保证对传入相同的 Hash 时返回的头像是相同的。
+
+可以用在任何用户系统中，当用户没有上传头像时，可根据 userID 生成一个独一无二的头像，而不是所有人都显示一个默认头像。
+
+### 请求
+
+> GET: <https://api.hzy.pw/avatar/v1/150/key>
+
+返回 hash 值为 `key` 并且尺寸为 `150px*150px` 的矢量图形。
+
+> GET: <https://api.hzy.pw/avatar/v1/70>
+
+返回尺寸为 `70px*70px` 的随机矢量图形。（每次请求的返回均不相同）
+
+### 前端显示
+
+返回类型为 SVG，所以不能使用 `<img>`，请使用 `<embed>` 标签插入到前端页面中：
+
+`<embed src="https://api.hzy.pw/avatar/v1/99/key" width="99" height="99" type="image/svg+xml"/>`
+
+<embed src="https://api.hzy.pw/avatar/v1/150"   width="150" height="150" type="image/svg+xml"/>
+<embed src="https://api.hzy.pw/avatar/v1/150/1" width="150" height="150" type="image/svg+xml"/>
+<embed src="https://api.hzy.pw/avatar/v1/150/2" width="150" height="150" type="image/svg+xml"/>
+<embed src="https://api.hzy.pw/avatar/v1/150/3" width="150" height="150" type="image/svg+xml"/>
+
+
 ## /saying
 
 **[] 随机名人名言 []**
