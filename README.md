@@ -8,7 +8,9 @@
 
 **[] 随机 SVG 矢量图形 []**
 
-生成矢量风格的图片，传入两个参数：尺寸和 Hash 值，输出一个 SVG 图片，并且保证对传入相同的 Hash 时返回的头像是相同的。
+![](https://camo.githubusercontent.com/b42d9837352ca7e294639ff1cc95f1e6798d85c3/68747470733a2f2f6a64656e7469636f6e2e636f6d2f686f737465642f6769746875622d73616d706c65732e706e67)
+
+生成矢量风格的图片，传入两个参数：尺寸和 Hash 值，输出一个 SVG 图片，**并且保证对传入相同的 Hash 时返回的头像是相同的。**
 
 可以用在任何用户系统中，当用户没有上传头像时，可根据 userID 生成一个独一无二的头像，而不是所有人都显示一个默认头像。
 
@@ -26,12 +28,7 @@
 
 返回类型为 SVG，所以不能使用 `<img>`，请使用 `<embed>` 标签插入到前端页面中：
 
-`<embed src="https://api.hzy.pw/avatar/v1/99/key" width="99" height="99" type="image/svg+xml"/>`
-
-<embed src="https://api.hzy.pw/avatar/v1/150"   width="150" height="150" type="image/svg+xml"/>
-<embed src="https://api.hzy.pw/avatar/v1/150/1" width="150" height="150" type="image/svg+xml"/>
-<embed src="https://api.hzy.pw/avatar/v1/150/2" width="150" height="150" type="image/svg+xml"/>
-<embed src="https://api.hzy.pw/avatar/v1/150/3" width="150" height="150" type="image/svg+xml"/>
+`<embed src="https://api.hzy.pw/avatar/v1/99/key" width="99" height="99" type="image/svg+xml" />`
 
 
 ## /saying
@@ -69,9 +66,5 @@
     "linkPC": "http://news.iciba.com/views/dailysentence/daily.html#!/detail/sid/1299"
 }
 ```
-
-### 返回
-
-不用说了，返回结果很清晰易懂不是？
 
 **注意事项：**由于可采集到的内容不同，每个接口返回的内容结构并不完全一致。比如 one 接口不会返回 `en` 键。
