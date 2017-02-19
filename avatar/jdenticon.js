@@ -14,7 +14,7 @@ module.exports.v1GET = (req, res, next)=>{
     let svg = jdenticon.toSvg(md5, size);
 
     res.writeHead(200, {
-      'Content-Length': svg.length,
+      //'Content-Length': svg.length,
       'Content-Type': 'image/svg+xml'
     });
     res.write(svg);

@@ -25,6 +25,9 @@ server.get('/saying/v1/one', require('./saying/one').v1GET);
 //avatar
 server.get('/avatar/v1/:size/:id', require('./avatar/jdenticon').v1GET);
 
+//Rss
+server.get('/rss/v1/:task', require('./rss/index').v1GET);
+
 
 //listen
 server.listen(port);

@@ -20,7 +20,7 @@
 
 返回 hash 值为 `key` 并且尺寸为 `150px*150px` 的矢量图形。
 
-> GET: <https://api.hzy.pw/avatar/v1/70>
+> GET: <https://api.hzy.pw/avatar/v1/70/>
 
 返回尺寸为 `70px*70px` 的随机矢量图形。（每次请求的返回均不相同）
 

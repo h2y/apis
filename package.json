@@ -14,7 +14,10 @@
   },
   "dependencies": {
     "cheerio": "^0.22.0",
+    "co": "^4.6.0",
     "jdenticon": "^1.4.0",
-    "restify": "^4.1.1"
+    "request": "^2.79.0",
+    "restify": "^4.1.1",
+    "rss": "^1.2.2"
   }
 }
