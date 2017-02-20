@@ -8,7 +8,8 @@ const cacheBox = require('../my_modules/cache_box'),
 /////////
 
 module.exports.makeRss = function* makeRss() {
-    const setting = this;
+    const setting  = this.setting,
+          taskName = this.taskName;
 
     const feed = new RSS({
         title: setting.rssName,
@@ -25,15 +26,17 @@ module.exports.makeRss = function* makeRss() {
         postsCacheFired = [];
 
     for(let numPostsAdded=0, nowUrl=setting.rssUrl; numPostsAdded<setting.rssNum;) {
-        let indexHtml = yield reqPromise(nowUrl);
+        let indexHtml = yield reqPromise(nowUrl, setting.rssRawEncode);
+
         let $ = cheerio.load(indexHtml);
 
-        nowUrl = $(setting.listNextPageJ).attr('href');
-
+        //get all posts links
+        const url = require('url');
         let postsLinks = $(setting.listPostsLinksJ).map(function() {
-            return $(this).attr('href');
+            let link = $(this).attr('href');
+            link = url.resolve(nowUrl, link);
+            return link;
         });
-
 
         //parallel request posts
         let postsRequests = [];
@@ -43,7 +46,7 @@ module.exports.makeRss = function* makeRss() {
             let cache = cacheBox.get('rssPost_'+postsLinks[i]);
             if(cache.err) {
                 postsLinksUnfired.push(postsLinks[i]);
-                postsRequests.push( reqPromise(postsLinks[i]) );
+                postsRequests.push( reqPromise(postsLinks[i], setting.rssRawEncode) );
             }
             else
                 postsCacheFired.push(cache.value);
@@ -52,6 +55,9 @@ module.exports.makeRss = function* makeRss() {
 
         postsContents = postsContents.concat(postsRet);
         numPostsAdded += postsRet.length;
+
+        //next page
+        nowUrl = $(setting.listNextPageJ).attr('href');
     }
 
 
@@ -65,14 +71,16 @@ module.exports.makeRss = function* makeRss() {
         
         let postTitle = $(setting.postTitleJ).text();
 
-        let postContents = $(setting.postContentsJ);
-        postContents.find('*').each((i, dom)=>{
-            $(dom).removeAttr('id').removeAttr('class');
-        });
-        postContents = postContents.html();
-
         let postTime = $(setting.postTimeJ).text();
         postTime = setting.postTimePraser(postTime);
+
+        //finnal is the contents 
+        let $contents = $(setting.postContentsJ),
+            postContents = '';
+        $contents.find('*').each((i, dom)=>{
+            $(dom).removeAttr('id').removeAttr('class');
+        });
+        postContents += $.html($contents) + setting.postContentsAfter;
 
         let postData = {
             title: postTitle,
@@ -88,6 +96,15 @@ module.exports.makeRss = function* makeRss() {
 
 
     //done
-    return feed.xml({indent: false});
+    const xmlOut = feed.xml({indent: false});
+
+    let cacheTime = setting.rssCacheTime;
+    if(setting.rssAutoRefresh)
+        cacheTime = setting.rssRefreshTime + .2;
+    cacheTime *= 60*1000;
+
+    cacheBox.set('rssXML_'+taskName, xmlOut, cacheTime);
+    return xmlOut;
 }
+
 

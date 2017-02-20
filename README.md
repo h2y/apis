@@ -68,3 +68,12 @@
 ```
 
 **注意事项：**由于可采集到的内容不同，每个接口返回的内容结构并不完全一致。比如 one 接口不会返回 `en` 键。
+
+
+## /rss_maker
+
+**[] 任意网站 RSS 生成器 []**
+
+为任意网站生成 RSS 链接，这并不是一个 REST API，归类为一个使用 Node 开发的服务器程序更为合适，放在这里是为了我的部署方便。
+
+详情请点击：<https://github.com/h2y/apis/blob/master/rss_maker/README.md>
