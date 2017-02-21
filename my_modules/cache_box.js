@@ -24,16 +24,17 @@ module.exports.del = (key='key', timeout=0)=>{
 
 
 module.exports.set = (key='key', value=null, timeout=5000)=>{
-    let cacheOld = module.exports.get(key);
+    const now = Date.now();
 
     caches[key] = {
         value:      value,
-        maxTime:    Date.now() + timeout
+        time:       now,
+        maxTime:    now + timeout
     };
 
     module.exports.del(key, timeout);
 
-    return cacheOld;
+    return caches[key];
 };
 
 
@@ -54,6 +55,7 @@ module.exports.get = (key='key', addTimeout=0)=>{
     return {
         err:        0,
         value:      cache.value,
+        time:       cache.time,
         maxTime:    cache.maxTime
     }
 };

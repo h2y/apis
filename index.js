@@ -6,9 +6,13 @@ var server = restify.createServer({
     'version':     '1.0.0'
 });
 
+//http://restify.com/#bundled-plugins
 server.use(restify.acceptParser(server.acceptable));
-server.use(restify.queryParser());
+//server.use(restify.queryParser());
+//server.use(restify.jsonp());
 server.use(restify.bodyParser());
+server.use(restify.gzipResponse());
+
 server.use((req, res, next)=>{
     res.header('Access-Control-Allow-Origin', '*');
     res.charSet('utf-8');
