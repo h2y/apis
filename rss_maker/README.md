@@ -4,6 +4,8 @@
 
 本项目的诞生来自我的灵感仓库 [#12](https://github.com/h2y/inspirations/issues/12)
 
+**现在已完美支持 AJAX 动态页面的内容抓取。**
+
 ## 关于 Git 仓库
 
 没有新开一个 Git 仓库是因为 apis 和 _RSS Maker_ 都是使用 Node 开发，而前者也是一个响应 web 请求的程序，并部署在了我的服务器中。所以我就把 _RSS Maker_ 作为一个子功能添加到了其中，方便我的部署。
@@ -26,6 +28,10 @@ RSS: <https://api.hzy.pw/rss/v1/zhidao_daily>
 
 RSS: <https://api.hzy.pw/rss/v1/zhidao_liuyan>
 
+### [有调 全球品质好物精选](https://www.diaox2.com/)
+
+RSS: <https://api.hzy.pw/rss/v1/diaox2>
+
 > **特别说明**
 
 > 不保证上述列表实时更新，但格式均为：`https://api.hzy.pw/rss/v1/‘TASKNAME’`
@@ -40,10 +46,10 @@ RSS: <https://api.hzy.pw/rss/v1/zhidao_liuyan>
 3. 两种刷新逻辑：有请求才采集（被动）、定时采集（主动）
 4. RSS 文件支持缓存时间设定。
 5. ‘具体文章’ 页面无限时间缓存，‘文章列表’ 页面不会缓存。
-6. 两种采集模式：静态页面请求、<del>动态页面请求</del>（待开发）
+6. 两种采集模式：静态页面请求、动态页面请求
 
 ## 项目运行方法
 
 需要下载整个 apis 项目，并运行 apis/index.js 文件。
 
-该程序由配置文件驱动，按照注释编辑 `setting.js` 文件，即可为你所需要的任何网站提供 RSS 支持。
+该程序由配置文件驱动，按照注释编辑 `setting.js` 文件，即可为你所需要的任何网站提供 RSS 支持，无需修改任何代码。

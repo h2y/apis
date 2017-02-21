@@ -7,9 +7,11 @@ module.exports.iapps_ipad = {
     listPostsLinksJ: 'article div.entry-main > h2 > a',
     
     postTitleJ: 'div.entry-main > h1 > a',
-    postContentsJ: `.entry-content, 
+    postRemoveJ: '.entry-content > div > div > a',
+    postContentsJ: `aside.mb0 li.meta-item-app,
+                    .entry-content, 
                     #slider img, 
-                    aside.mb0 li.meta-item-app`,
+                    #comment-list .comment-content`,
 
     postTimeJ: 'div.entry-main > div.entry-meta > div.entry-meta-first',
     postTimePraser: timeStr=>{
@@ -29,9 +31,10 @@ module.exports.zhidao_daily = {
     rssRawEncode: 'GBK',
 
     rssAutoRefresh: true,
-    rssRefreshTime: 12*60,
+    rssRefreshTime: 60,
 
     //listNextPageJ: 'div.pagination-right > ul > li:nth-last-child(2) >a',
+    postRemoveJ: '#daily-cont > img:last-child',
     listPostsLinksJ: '#body>div.banner-wp>div>a, #daily-list div.daily-cont-top>h2>a',
     
     postTitleJ: 'h1#daily-title',
@@ -48,11 +51,30 @@ module.exports.zhidao_liuyan = {
     rssAutoRefresh: true,
     rssRefreshTime: 60, 
 
+    postRemoveJ: '#j-reasoning-detail-content > div > p:last-child',
     //listNextPageJ: 'div.pagination-right > ul > li:nth-last-child(2) >a',
     listPostsLinksJ: 'dl > dt > h3 > a',
     
     postTitleJ: 'p.question-title',
     postContentsJ: `#question-content, div.wgt-reasoning`,
+};
+
+
+module.exports.diaox2 = {
+    rssUrl: 'https://www.diaox2.com/',
+    rssName: '有调',
+    rssNum: 24, //24 per page
+
+    rssIsAjaxPage: true,
+
+    rssAutoRefresh: true,
+    rssRefreshTime: 30, 
+
+    //listNextPageJ: 'div.pagination-right > ul > li:nth-last-child(2) >a',
+    listPostsLinksJ: '#content-list > li > a',
+    
+    postTitleJ: 'h1.article-title',
+    postContentsJ: `div.article, div.buy-box`,
 };
 
 
@@ -69,6 +91,8 @@ const settingDefault = {
     rssNum: 30,
     rssRawEncode: 'utf-8', 
 
+    rssIsAjaxPage: false, //是否启用Ajax爬虫模式
+
     rssAutoRefresh: false, //定时自动刷新模式 or 被动获取模式(default)
     rssRefreshTime: 20, //min 自动模式下刷新间隔时间
     rssCacheTime: 5,    //min 被动模式下缓存时间
@@ -78,8 +102,9 @@ const settingDefault = {
     listPostsLinksJ: 'article div.entry-main > h2 > a', //列表中 `具体文章` 链接的选择器
     
     //in a post
-    postTitleJ: 'div.entry-main > h1 > a',
-    postContentsAfter: '<p>RSS build by <a href="https://hzy.pw" target="_blank">Moshel</a>.</p>', //在RSS每篇文章末尾添加的内容
+    postTitleJ: 'h1',
+    postRemoveJ: '', //要删除的节点的选择器
+    postContentsAfter: '<p>RSS build by <a href="https://hzy.pw">Moshel</a>.</p>', //在RSS每篇文章末尾添加的内容
     postContentsJ: `article`, //文章内容选择器
 
     //仅被动模式需要设定时间识别

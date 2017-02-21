@@ -1,7 +1,7 @@
 const req = require('request');
 const iconv = require('iconv-lite');
 
-const reqDelay = 50;
+const reqDelay = 50; //ms
 let reqLastTime = {
     'host.name': Date.now()
 };
@@ -13,14 +13,12 @@ req.defaults({
     gzip: true,
 });
 
-module.exports.reqPromise = reqPromise;
-
 
 /*
     request Promise version
     with encode change & request frequency limit
  */
-function reqPromise(url='', encode='utf-8') {
+function requestVersion(url='', encode='utf-8') {
     let hostName = getHostName(url);
     reqLastTime[hostName] = reqLastTime[hostName] || 0;
 
@@ -52,4 +50,51 @@ function getHostName(link='') {
     const URL = require('url');
     let url = URL.parse(link);
     return url.hostname;
+}
+
+
+///////////////////////////////////////
+
+const phantom = require('phantom'),
+      co = require('co');
+
+//http://phantomjs.org/api/command-line.html
+let ph = 0;
+phantom.create(['--load-images=no'])
+.then(instance=> ph=instance);
+
+
+function phantomVersion(url='') {
+    if(!ph.createPage)
+        return Promise.reject('phantom is not created.');
+
+    return co(function*() {
+        const page = yield ph.createPage();
+        
+        /*yield page.on("onResourceRequested", function(requestData) {
+            console.info('Requesting', requestData.url)
+        });*/
+
+        const status = yield page.open(url);
+        if(status!=='success')
+            throw new Error(`phantom ${url} - ${status}`);
+            
+        const content = yield page.property('content');
+        
+        yield page.close();
+        
+        return content;
+    });
+}
+
+//phantomVersion('https://hzy.pw').then(e=>console.log(e))
+
+///////////////////////////////////////
+module.exports.reqPromise = reqPromise;
+
+function reqPromise(url='', encode='utf-8', usePhantom=false) {
+    if(usePhantom)
+        return phantomVersion(url);
+    
+    return requestVersion(url, encode);
 }

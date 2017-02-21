@@ -66,7 +66,7 @@ for(let taskName in settings) {
         })
         .catch(e=>{
             console.log(taskName+' rss index fresh error: '+e);
-            setTimeout(runFunction, refreshTime/2);
+            setTimeout(runFunction, refreshTime/4);
         });
     };
 

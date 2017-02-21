@@ -26,7 +26,7 @@ module.exports.makeRss = function* makeRss() {
         postsCacheFired = [];
 
     for(let numPostsAdded=0, nowUrl=setting.rssUrl; numPostsAdded<setting.rssNum;) {
-        let indexHtml = yield reqPromise(nowUrl, setting.rssRawEncode);
+        let indexHtml = yield reqPromise(nowUrl, setting.rssRawEncode, setting.rssIsAjaxPage);
 
         let $ = cheerio.load(indexHtml);
 
@@ -46,7 +46,7 @@ module.exports.makeRss = function* makeRss() {
             let cache = cacheBox.get('rssPost_'+postsLinks[i]);
             if(cache.err) {
                 postsLinksUnfired.push(postsLinks[i]);
-                postsRequests.push( reqPromise(postsLinks[i], setting.rssRawEncode) );
+                postsRequests.push( reqPromise(postsLinks[i], setting.rssRawEncode, setting.rssIsAjaxPage) );
             }
             else
                 postsCacheFired.push(cache.value);
@@ -69,6 +69,9 @@ module.exports.makeRss = function* makeRss() {
     for(let i=0; postsContents.length>i; i++) {
         let $ = cheerio.load(postsContents[i]);
         
+        $('noscript, style, script').remove();
+        $(setting.postRemoveJ).remove();
+
         let postTitle = $(setting.postTitleJ).text();
 
         let postTime = $(setting.postTimeJ).text();
