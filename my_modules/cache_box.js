@@ -1,13 +1,37 @@
 const caches = {};
 
+const delTimeoutInfo = {};
 
-module.exports.set = (key='key', value='defalt', timeout=5000)=>{
+
+//////////////////////////
+
+module.exports.del = (key='key', timeout=0)=>{
+    let timeoutInfo = delTimeoutInfo[key];
+    if(timeoutInfo) {
+        clearTimeout(timeout);
+        delete delTimeoutInfo[key];
+    }
+
+    let delFunc = function() {
+        delete caches[key];
+    }
+
+    if(timeout==0)
+        delFunc();
+    else 
+        delTimeoutInfo[key] = setTimeout(delFunc, timeout);
+}
+
+
+module.exports.set = (key='key', value=null, timeout=5000)=>{
     let cacheOld = module.exports.get(key);
 
     caches[key] = {
         value:      value,
         maxTime:    Date.now() + timeout
     };
+
+    module.exports.del(key, timeout);
 
     return cacheOld;
 };
@@ -22,16 +46,10 @@ module.exports.get = (key='key', addTimeout=0)=>{
             errMsg: 'can`t match cache: '+key
         };
 
-    if(cache.maxTime < Date.now()) {
-        delete caches[key];
-        return {
-            err:    2,
-            errMsg: 'cache is out of date: '+key
-        };
+    if(addTimeout) {
+        cache.maxTime = Date.now() + addTimeout;
+        module.exports.del(key, addTimeout);
     }
-
-
-    cache.maxTime = Date.now() + addTimeout;
 
     return {
         err:        0,
