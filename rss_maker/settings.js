@@ -74,7 +74,7 @@ module.exports.diaox2 = {
     listPostsLinksJ: '#content-list > li > a',
     
     postTitleJ: 'h1.article-title',
-    postContentsJ: `div.article, div.buy-box`,
+    postContentsJ: `div.article, .buy-box .method-source-and-price`,
 };
 
 

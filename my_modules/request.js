@@ -58,41 +58,96 @@ function getHostName(link='') {
 const phantom = require('phantom'),
       co = require('co');
 
-//http://phantomjs.org/api/command-line.html
-let ph = 0;
-phantom.create(['--load-images=no'])
-.then(instance=> ph=instance);
+const phStratArgs = ['--load-images=no'];
+
+let ph = {};                //phantom instance
+
+let phIsUsing = 0,          //(count) only restart when nobody using
+    phIsRestarting = true,  //block new using
+    timesUsedPh = 0;        //restart after times
+
+//init
+phIsRestarting = true;
+timesUsedPh = 9999999;
+restartPh();
+
+function restartPh() {
+    if(timesUsedPh < 20) //restart after used times
+        return setTimeout(restartPh, 5*60*1000); //check time: 5min
+    
+    //need restart
+    co(function*() {
+        phIsRestarting = true;
+        console.log('start');
+        while(phIsUsing>0) 
+            yield promiseDelay(200);
+        
+        if(ph.exit)
+            yield ph.exit();
+        ph = yield phantom.create(phStratArgs);
+        phIsUsing = timesUsedPh = 0;
+            
+        phIsRestarting = false;
+        
+        setTimeout(restartPh, 15*60*1000); //next check: 15min
+    });
+}
 
 
 function phantomVersion(url='') {
-    if(!ph.createPage)
-        return Promise.reject('phantom is not created.');
-
     return co(function*() {
-        const page = yield ph.createPage();
         
-        /*yield page.on("onResourceRequested", function(requestData) {
-            console.info('Requesting', requestData.url)
-        });*/
-
+        //waiting for created ph
+        let waitTimes = 0,
+            waitTimesMax = 30; // >15s
+        while(phIsRestarting) {
+            if(++waitTimes > waitTimesMax)
+                throw new Error('wait for start Phantom so long :(');
+                
+            yield promiseDelay(500);
+        }
+        
+        timesUsedPh++;
+        phIsUsing++;
+        
+        const page = yield ph.createPage();
         const status = yield page.open(url);
         if(status!=='success')
             throw new Error(`phantom ${url} - ${status}`);
             
         const content = yield page.property('content');
         
+        yield page.stop();
         yield page.close();
+        
+        phIsUsing--;
         
         return content;
     });
 }
 
-//phantomVersion('https://hzy.pw').then(e=>console.log(e))
+
+function promiseDelay(time=1000) {
+    return new Promise(ok=>{
+       setTimeout(ok, time); 
+    });
+}
+
+
 
 ///////////////////////////////////////
+
 module.exports.reqPromise = reqPromise;
 
-function reqPromise(url='', encode='utf-8', usePhantom=false) {
+/**
+ * 封装获取源码的两种途径
+ * 
+ * @param {string} [url] 
+ * @param {string} [encode='utf-8'] 
+ * @param {boolean} [usePhantom=false] 
+ * @returns {Promise}
+ */
+function reqPromise(url, encode='utf-8', usePhantom=false) {
     if(usePhantom)
         return phantomVersion(url);
     
