@@ -74,6 +74,6 @@
 
 **[] 任意网站 RSS 生成器 []**
 
-为任意网站生成 RSS 链接，这并不是一个 REST API，归类为一个使用 Node 开发的服务器程序更为合适，放在这里是为了我的部署方便。
+为任意网站生成 RSS 链接，支持 AJAX 网站。这并不是一个 REST API，与本项目毫无关系，但由于技术栈类似，我将其放在了这个本仓库的另一个分支当中。
 
-详情请点击：<https://github.com/h2y/apis/blob/master/rss_maker/README.md>
+详情请点击：<https://github.com/h2y/apis/tree/rss-maker>
