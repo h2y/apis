@@ -16,7 +16,6 @@
     "cheerio": "~0.22.0",
     "co": "^4.6.0",
     "iconv-lite": "~0.4.15",
-    "jdenticon": "^1.4.0",
     "phantom": "^4.0.0",
     "request": "^2.79.0",
     "restify": "^4.1.1",

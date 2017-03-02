@@ -1,79 +1,59 @@
-# APIs by h2y
+# RSS Maker
 
-这个仓库是一个单独的 Node 应用，基于 [restify](http://restify.com/) 开发，运行后可提供多个 API 的服务。每个文件夹实现一个 API 功能。
+将感兴趣网站的 RSS 记录下来，在阅读器中统一阅读是最棒的阅读体验，不过现在的很多网站并不提供 RSS 地址，强制我们上他们的网站甚至是下载其 App，很无理。于是，我开发了 _RSS Maker_，为所有的网站生成 RSS 地址。
 
-该项目已运行于我的服务器 <https://api.hzy.pw/> 中，大家可以直接调用，无任何限制。不过我不保证稳定性，所以更推荐大家下载源码，将这组 API 运行在自己的服务器中。
+本项目的诞生来自我的灵感仓库 [#12](https://github.com/h2y/inspirations/issues/12)
 
-## /avatar
+**现在已完美支持 AJAX 动态页面的内容抓取。**
 
-**[] 随机 SVG 矢量图形 []**
+## 关于 Git 仓库
 
-![](https://camo.githubusercontent.com/b42d9837352ca7e294639ff1cc95f1e6798d85c3/68747470733a2f2f6a64656e7469636f6e2e636f6d2f686f737465642f6769746875622d73616d706c65732e706e67)
+没有新开一个 Git 仓库是因为 apis 和 _RSS Maker_ 都是使用 Node 开发，而前者也是一个响应 web 请求的程序，并部署在了我的服务器中。所以我就把 _RSS Maker_ 作为一个子功能添加到了其中，方便我的部署。
 
-生成矢量风格的图片，传入两个参数：尺寸和 Hash 值，输出一个 SVG 图片，**并且保证对传入相同的 Hash 时返回的头像是相同的。**
+其实严格来看，_RSS Maker_ 并不是一个 WEB API 服务。
 
-可以用在任何用户系统中，当用户没有上传头像时，可根据 userID 生成一个独一无二的头像，而不是所有人都显示一个默认头像。
+## 当前 RSS 
 
-### 请求
+为满足我的个人需要，<del>我目前运行着以下几个网站的 RSS 生成服务，分享给大家一起使用：</del>
 
-> GET: <https://api.hzy.pw/avatar/v1/150/key>
+### [iApps iPad 限时免费](http://www.iapps.im/tags/iPad/)
 
-返回 hash 值为 `key` 并且尺寸为 `150px*150px` 的矢量图形。
+RSS: <https://api.hzy.pw/rss/v1/iapps_ipad>
 
-> GET: <https://api.hzy.pw/avatar/v1/70/>
+### [百度知道日报](https://zhidao.baidu.com/daily)
 
-返回尺寸为 `70px*70px` 的随机矢量图形。（每次请求的返回均不相同）
+RSS: <https://api.hzy.pw/rss/v1/zhidao_daily>
 
-### 前端显示
+### [百度知道 真相问答机](https://zhidao.baidu.com/liuyan/list)
 
-返回类型为 SVG，所以不能使用 `<img>`，请使用 `<embed>` 标签插入到前端页面中：
+RSS: <https://api.hzy.pw/rss/v1/zhidao_liuyan>
 
-`<embed src="https://api.hzy.pw/avatar/v1/99/key" width="99" height="99" type="image/svg+xml" />`
+### [有调 全球品质好物精选](https://www.diaox2.com/)
 
+RSS: <https://api.hzy.pw/rss/v1/diaox2>
 
-## /saying
+### [慢时间 慢生活社区](http://www.manshijian.com/)
 
-**[] 随机名人名言 []**
+RSS: <https://api.hzy.pw/rss/v1/manshijian>
 
-每次访问返回一条随机的名人名言，提供 3 个 API 接口，分别返回来自 _一个、金山词霸_ 两个网站中采集的名言。其中词霸接口返回的名言是中英文对照的，很高大上。
+> **特别说明**
 
-返回内容涵盖了能采集到的所有信息，包括名言的配图，所以也可以作为 **随机图片获取接口** 来使用。
+> 不保证上述列表实时更新，但格式均为：`https://api.hzy.pw/rss/v1/‘TASKNAME’`
 
-### 请求
-
-> GET: <https://api.hzy.pw/saying/v1/one>
-
-返回来自 _ONE·一个_ 的名言
-
-> GET: <https://api.hzy.pw/saying/v1/ciba>
-
-返回来自 _金山词霸每日一句_ 的名言
-
-### 示例
-
-> GET: <https://api.hzy.pw/saying/v1/ciba>
-
-```json
-{
-    "cn": "你可以拥有一切，只是不能一次就全到手。(Oprah Winfrey)",
-    "cnFix": "你可以拥有一切，只是不能一次就全到手。",
-    "en": "You can have it all. You just can't have it all at once.",
-    "date": "2015-05-24",
-    "pic": "http://cdn.iciba.com/news/word/big_2015-05-24b.jpg",
-    "picSmall": "http://cdn.iciba.com/news/word/2015-05-24.jpg",
-    "picSquare": "http://cdn.iciba.com/news/word/xiaomi_2015-05-24mi.jpg",
-    "link": "http://www.iciba.com/dailysentence/1299",
-    "linkPC": "http://news.iciba.com/views/dailysentence/daily.html#!/detail/sid/1299"
-}
-```
-
-**注意事项：**由于可采集到的内容不同，每个接口返回的内容结构并不完全一致。比如 one 接口不会返回 `en` 键。
+> 所以大家可以在 [settings.js](https://github.com/h2y/apis/blob/master/rss_maker/settings.js) 中找到目前我运行在服务器中的所有 RSS 地址。
 
 
-## /rss_maker
+## 特点
 
-**[] 任意网站 RSS 生成器 []**
+1. 使用 CSS 选择器来获取页面中的标题、日期等内容，适用性极广。
+2. 先扫描 ‘文章列表’ 页面，得到文章链接，再进入 ‘具体文章’ 页面，获取文章具体信息。
+3. 两种刷新逻辑：有请求才采集（被动）、定时采集（主动）
+4. RSS 文件支持缓存时间设定。
+5. ‘具体文章’ 页面无限时间缓存，‘文章列表’ 页面不会缓存。
+6. 两种采集模式：静态页面请求、动态页面请求
 
-为任意网站生成 RSS 链接，这并不是一个 REST API，归类为一个使用 Node 开发的服务器程序更为合适，放在这里是为了我的部署方便。
+## 项目运行方法
 
-详情请点击：<https://github.com/h2y/apis/blob/master/rss_maker/README.md>
+需要下载整个 apis 项目，并运行 apis/index.js 文件。
+
+该程序由配置文件驱动，按照注释编辑 `setting.js` 文件，即可为你所需要的任何网站提供 RSS 支持，无需修改任何代码。
