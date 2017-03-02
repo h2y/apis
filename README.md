@@ -16,31 +16,12 @@
 
 为满足我的个人需要，<del>我目前运行着以下几个网站的 RSS 生成服务，分享给大家一起使用：</del>
 
-### [iApps iPad 限时免费](http://www.iapps.im/tags/iPad/)
-
-RSS: <https://api.hzy.pw/rss/v1/iapps_ipad>
-
-### [百度知道日报](https://zhidao.baidu.com/daily)
-
-RSS: <https://api.hzy.pw/rss/v1/zhidao_daily>
-
-### [百度知道 真相问答机](https://zhidao.baidu.com/liuyan/list)
-
-RSS: <https://api.hzy.pw/rss/v1/zhidao_liuyan>
-
-### [有调 全球品质好物精选](https://www.diaox2.com/)
-
-RSS: <https://api.hzy.pw/rss/v1/diaox2>
-
-### [慢时间 慢生活社区](http://www.manshijian.com/)
-
-RSS: <https://api.hzy.pw/rss/v1/manshijian>
 
 > **特别说明**
 
-> 不保证上述列表实时更新，但格式均为：`https://api.hzy.pw/rss/v1/‘TASKNAME’`
+> 由于本人不需要 RSS 阅读了，太麻烦，所以不再在自己服务器上运行该代码了。
 
-> 所以大家可以在 [settings.js](https://github.com/h2y/apis/blob/master/rss_maker/settings.js) 中找到目前我运行在服务器中的所有 RSS 地址。
+> 不过这段代码仍然是好用的，所以保留在这里，以供今后的大家使用。
 
 
 ## 特点
