@@ -24,6 +24,35 @@ module.exports.iapps_ipad = {
 };
 
 
+module.exports.manshijian = {
+    rssUrl: 'http://www.manshijian.com/home/more.html',
+    rssName: '慢时间',
+    rssNum: 5, //15 per page
+
+    rssAutoRefresh: true,
+    rssRefreshTime: 30, 
+
+    //listNextPageJ: 'div.pagination-right > ul > li:nth-last-child(2) >a',
+    listPostsLinksJ: '#left_body dd > h1 > a',
+    
+    postTitleJ: 'body > div.body_main.nobackground > div.left_in.detailed > div.new_content > h1',
+    postRemoveJ: `.new_content h1, 
+                  .new_content .botton,
+                  .new_content .jiathis_style,
+                  .new_content .gd-bg,
+                  .new_content .wd-all`,
+    postContentsJ: `.left_in.detailed > div.new_content`,
+
+    postTimeJ: '.body_righ_serven > div > div:nth-child(3) > em',
+    postTimePraser: timeStr=>{
+        let regexRet = timeStr.match(/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/);
+        if(regexRet)
+            return new Date(regexRet[0]);
+        return new Date();
+    },
+};
+
+
 module.exports.zhidao_daily = {
     rssUrl: 'https://zhidao.baidu.com/daily',
     rssName: '百度知道日报',

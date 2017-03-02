@@ -78,8 +78,9 @@ function restartPh() {
     //need restart
     co(function*() {
         phIsRestarting = true;
-        console.log('start');
-        while(phIsUsing>0) 
+        
+        const maxWaitTimes = 12*1000/200; //12s
+        for(let i=0; i<maxWaitTimes && phIsUsing>0; i++) 
             yield promiseDelay(200);
         
         if(ph.exit)
@@ -142,14 +143,15 @@ module.exports.reqPromise = reqPromise;
 /**
  * 封装获取源码的两种途径
  * 
- * @param {string} [url] 
+ * @param {string} url
  * @param {string} [encode='utf-8'] 
  * @param {boolean} [usePhantom=false] 
  * @returns {Promise}
  */
 function reqPromise(url, encode='utf-8', usePhantom=false) {
-    if(usePhantom)
-        return phantomVersion(url);
+    let retPromise = usePhantom? phantomVersion(url) : requestVersion(url, encode);
     
-    return requestVersion(url, encode);
+    return retPromise.catch(e=>{
+        console.log(`request error (${url}) ${e}`);
+    });
 }

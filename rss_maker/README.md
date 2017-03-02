@@ -32,6 +32,10 @@ RSS: <https://api.hzy.pw/rss/v1/zhidao_liuyan>
 
 RSS: <https://api.hzy.pw/rss/v1/diaox2>
 
+### [慢时间 慢生活社区](http://www.manshijian.com/)
+
+RSS: <https://api.hzy.pw/rss/v1/manshijian>
+
 > **特别说明**
 
 > 不保证上述列表实时更新，但格式均为：`https://api.hzy.pw/rss/v1/‘TASKNAME’`

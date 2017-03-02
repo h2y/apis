@@ -1,3 +1,5 @@
+const URL = require('url');
+
 const RSS = require('rss'),
       cheerio = require('cheerio');
 
@@ -31,10 +33,9 @@ module.exports.makeRss = function* makeRss() {
         let $ = cheerio.load(indexHtml);
 
         //get all posts links
-        const url = require('url');
         let postsLinks = $(setting.listPostsLinksJ).map(function() {
             let link = $(this).attr('href');
-            link = url.resolve(nowUrl, link);
+            link = URL.resolve(nowUrl, link);
             return link;
         });
 
@@ -52,7 +53,7 @@ module.exports.makeRss = function* makeRss() {
                 postsCacheFired.push(cache.value);
         }
         let postsRet = yield postsRequests;
-
+        
         postsContents = postsContents.concat(postsRet);
         numPostsAdded += postsRet.length;
 
@@ -69,32 +70,45 @@ module.exports.makeRss = function* makeRss() {
     for(let i=0; postsContents.length>i; i++) {
         let $ = cheerio.load(postsContents[i]);
         
-        $('noscript, style, script').remove();
-        $(setting.postRemoveJ).remove();
-
-        let postTitle = $(setting.postTitleJ).text();
+        let postTitle = $(setting.postTitleJ).text().trim();
 
         let postTime = $(setting.postTimeJ).text();
         postTime = setting.postTimePraser(postTime);
 
-        //finnal is the contents 
+        //get contents 
         let $contents = $(setting.postContentsJ),
             postContents = '';
+            
+        //remove doms
+        $contents.find('noscript, style, script').remove();
+        $contents.find(setting.postRemoveJ).remove();
+        
+        //img links fix
+        $contents.find('img').each((i2, dom)=>{
+            let $dom = $(dom),
+                src = $dom.attr('src');
+            let newSrc = URL.resolve(postsLinksUnfired[i], src);
+            if(newSrc!=src)
+                $dom.attr('src', newSrc);
+        });
+        
+        //remove id & class
         $contents.find('*').each((i, dom)=>{
             $(dom).removeAttr('id').removeAttr('class');
         });
-        postContents += $.html($contents) + setting.postContentsAfter;
-
+        
+        postContents += $.html($contents).trim() + setting.postContentsAfter;
+        
         let postData = {
             title: postTitle,
             url:   postsLinksUnfired[i],
             date:  postTime,
             description: postContents,
         };
-
+        
         feed.item(postData);
-
-        cacheBox.set('rssPost_'+postsLinksUnfired[i], postData, 999999999);
+        
+        cacheBox.set('rssPost_'+postsLinksUnfired[i], postData, 24*60*60*1000); //1h
     }
 
 
@@ -109,5 +123,3 @@ module.exports.makeRss = function* makeRss() {
     cacheBox.set('rssXML_'+taskName, xmlOut, cacheTime);
     return xmlOut;
 }
-
-
