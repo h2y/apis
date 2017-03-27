@@ -29,9 +29,11 @@ server.get('/saying/v1/one', require('./saying/one').v1GET);
 //avatar
 server.get('/avatar/v1/:size/:id', require('./avatar/jdenticon').v1GET);
 
-//Rss
-server.get('/rss/v1/:task', require('./rss_maker/index').v1GET);
 
+//static files
+server.get(/\/static\/.+/, restify.serveStatic({
+    directory: './static'
+}));
 
 //listen
 server.listen(port);
